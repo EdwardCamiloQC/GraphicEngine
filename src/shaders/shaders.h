@@ -6,10 +6,11 @@
     class ProgramShaders{
         public:
             ProgramShaders(const char* pathVertex, const char* pathFragment);
-            unsigned int getIdProgram();
             ~ProgramShaders() = default;
+        public:
+            unsigned int shaderProgramId;
         private:
-            unsigned int vertex, fragment, shaderProgram;
+            unsigned int vertex, fragment;
         private:
             unsigned int compileShaders(const std::string& shaderPath, unsigned int moduleType);
             void linkShaders();

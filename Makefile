@@ -1,31 +1,47 @@
-SRC_DIR = ./src
+MAIN_DIR = ./src/main
+MAPS_DIR = ./src/mapsCode
+OBJECTS_DIR = ./src/objectsCode
+GLAD_DIR = ./src/include
+SHADERS_DIR = ./src/shaders
+EXTRA_DIR = ./src/extraCode
 BUILD_DIR = build
 MISLIBS_DIR = /home/edward/Documentos/CodigosC++/MisLibrerias
-VPATH = $(SRC_DIR):$(MISLIBS_DIR)
+VPATH = $(MAIN_DIR):$(MAPS_DIR):$(OBJECTS_DIR):$(MISLIBS_DIR):$(GLAD_DIR):$(SHADERS_DIR)
 
-INCLUDES = -I./headers -I./include -I$(MISLIBS_DIR)
+INCLUDES = -I$(EXTRA_DIR) -I$(MAIN_DIR) -I$(MAPS_DIR) -I$(OBJECTS_DIR) -I$(MISLIBS_DIR) -I$(GLAD_DIR) -I$(SHADERS_DIR) -I/usr/include/assimp
 LIBRARIES = -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl
+#LIBRARIES += -L
 COMPILER = g++
 DEBUGER = gdb
 FLAGSCPP = -c -Wall
 FLAGSDEBUG = -g
 
 PROJECT = $(notdir $(shell pwd))
-SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
+SOURCES = $(wildcard $(MAIN_DIR)/*.cpp)
+SOURCES += $(wildcard $(MAPS_DIR)/*.cpp)
+SOURCES += $(wildcard $(OBJECTS_DIR)/*.cpp)
+SOURCES += $(wildcard $(SHADERS_DIR)/shaders.cpp)
 SOURCES += $(wildcard $(MISLIBS_DIR)/figure.cpp)
 OBJECTS = $(addprefix $(BUILD_DIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
 $(BUILD_DIR)/$(PROJECT) : $(OBJECTS) $(BUILD_DIR)/glad.o
+	$(info ---------------END COMPILATION---------------)
+	$(info /-                                         -/)
+	$(info -----------------START LINK------------------)
 	$(COMPILER) -o $@ $^ $(LIBRARIES) $(INCLUDES)
 
 $(BUILD_DIR)/%.o : %.cpp | $(BUILD_DIR)
 	$(COMPILER) $(FLAGSCPP) $(INCLUDES) $< -o $@
 
-$(BUILD_DIR)/glad.o : $(SRC_DIR)/glad.c
+$(BUILD_DIR)/glad.o : $(GLAD_DIR)/glad.c
 	$(COMPILER) $(FLAGSCPP) $(INCLUDES) $< -o $@
 
 $(BUILD_DIR) :
 	mkdir $(BUILD_DIR)
+
+rebuild :
+	make clean
+	make
 
 runProject :
 	./$(BUILD_DIR)/$(PROJECT)

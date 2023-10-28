@@ -12,10 +12,6 @@ ProgramShaders :: ProgramShaders(const char* vertexPath, const char* fragmentPat
     glDeleteShader(fragment);
 }
 
-unsigned int ProgramShaders :: getIdProgram(){
-    return shaderProgram;
-}
-
 unsigned int ProgramShaders :: compileShaders(const std::string& shaderPath, unsigned int moduleType){
     std::ifstream file;
     std::stringstream bufferedLines;
@@ -42,16 +38,16 @@ unsigned int ProgramShaders :: compileShaders(const std::string& shaderPath, uns
 }
 
 void ProgramShaders :: linkShaders(){
-    shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertex);
-    glAttachShader(shaderProgram, fragment);
-    glLinkProgram(shaderProgram);
+    shaderProgramId = glCreateProgram();
+    glAttachShader(shaderProgramId, vertex);
+    glAttachShader(shaderProgramId, fragment);
+    glLinkProgram(shaderProgramId);
     // check errors
     int success;
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    glGetProgramiv(shaderProgramId, GL_LINK_STATUS, &success);
     if(!success){
         char infoLog[512];
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        glGetProgramInfoLog(shaderProgramId, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
 }
