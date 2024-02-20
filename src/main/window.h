@@ -8,8 +8,9 @@
     class WindowEngine{
         public:
             WindowEngine(uint16_t width, uint16_t height);
-            void run();
+            WindowEngine(const WindowEngine& w);
             ~WindowEngine();
+            void run();
         public:
             uint32_t ancho;
             uint32_t alto;

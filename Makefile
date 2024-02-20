@@ -13,7 +13,7 @@ LIBRARIES = -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl
 #LIBRARIES += -L
 COMPILER = g++
 DEBUGER = gdb
-FLAGSCPP = -c -Wall
+FLAGSCPP = -c -Wall -g
 FLAGSDEBUG = -g
 
 PROJECT = $(notdir $(shell pwd))
@@ -24,10 +24,10 @@ SOURCES += $(wildcard $(SHADERS_DIR)/shaders.cpp)
 SOURCES += $(wildcard $(MISLIBS_DIR)/figure.cpp)
 OBJECTS = $(addprefix $(BUILD_DIR)/, $(notdir $(SOURCES:.cpp=.o)))
 
-$(BUILD_DIR)/$(PROJECT) : $(OBJECTS) $(BUILD_DIR)/glad.o
+$(BUILD_DIR)/$(PROJECT) : $(BUILD_DIR)/glad.o $(OBJECTS)
 	$(info ---------------END COMPILATION---------------)
 	$(info /-                                         -/)
-	$(info -----------------START LINK------------------)
+	$(info ----------------START LINKING----------------)
 	$(COMPILER) -o $@ $^ $(LIBRARIES) $(INCLUDES)
 
 $(BUILD_DIR)/%.o : %.cpp | $(BUILD_DIR)
@@ -44,6 +44,7 @@ rebuild :
 	make
 
 runProject :
+	clear
 	./$(BUILD_DIR)/$(PROJECT)
 
 debugProject :
@@ -53,4 +54,5 @@ info :
 	$(info $(OBJECTS))
 
 clean :
+	clear
 	rm ./$(BUILD_DIR)/*

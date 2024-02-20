@@ -3,6 +3,15 @@
 Scene::Scene():actMap(nullptr){
 }
 
+Scene::Scene(const Scene& s):actMap(nullptr){
+}
+
+Scene::~Scene(){
+    if(actMap != nullptr){
+        eraseMap();
+    }
+}
+
 void Scene::loadMap(Map* map){
     actMap = map;
 }
@@ -19,10 +28,4 @@ void Scene::drawMap(unsigned int idShader){
 
 Camera& Scene::requestCamera(){
     return actMap->getCamera();
-}
-
-Scene::~Scene(){
-    if(actMap != nullptr){
-        eraseMap();
-    }
 }

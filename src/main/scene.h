@@ -6,11 +6,12 @@
     class Scene{
         public:
             Scene();
+            Scene(const Scene& s);
+            ~Scene();
             void loadMap(Map* map);
             void eraseMap();
             void drawMap(unsigned int idShader);
             Camera& requestCamera();
-            ~Scene();
         private:
             Map* actMap;
     };

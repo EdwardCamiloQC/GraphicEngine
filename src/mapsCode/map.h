@@ -5,7 +5,7 @@
 
     class Map{
         public:
-            Map(float xCam, float yCam, float zCam):camera(glm::vec3(xCam, yCam, zCam)){}
+            Map(float xCam, float yCam, float zCam):camera(xCam, yCam, zCam){}
             virtual void implementMap(unsigned int idShader){}
             Camera& getCamera(){
                 return camera;

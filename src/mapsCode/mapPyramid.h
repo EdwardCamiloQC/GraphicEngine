@@ -4,10 +4,6 @@
     #include <map.h>
     #include <figure.h>
 
-    struct positionCam{
-        float x, y, z;
-    };
-
     class MapPyramid : public Map{
         public:
             MapPyramid(float xCam, float yCam, float zCam);
@@ -16,6 +12,5 @@
         protected:
             struct vertexPyramid pyramid;
             unsigned VAO, VBO, EBO;
-            struct positionCam position;
     };
 #endif
